@@ -94,8 +94,163 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
     <link rel="stylesheet" href="assets/css/styles.css" />
-    <script src="https://cdn.jsdelivr.net/npm/tsparticles@3.5/tsparticles.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3rem;
+        background: radial-gradient(120% 120% at 50% 0%, rgba(110, 64, 255, 0.35), rgba(17, 17, 17, 0.95)),
+          linear-gradient(135deg, #050505 0%, #0f1115 100%);
+        color: #f5f6f8;
+        font-family: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont,
+          "Helvetica Neue", sans-serif;
+      }
+
+      .start-proxy-shell {
+        position: relative;
+        width: min(480px, 100%);
+        aspect-ratio: 1.15;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 32px;
+        background: rgba(15, 17, 24, 0.65);
+        backdrop-filter: blur(28px) saturate(140%);
+        border: 1px solid rgba(120, 138, 255, 0.25);
+        box-shadow: 0 35px 70px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+        transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+          border-color 320ms ease, box-shadow 320ms ease;
+      }
+
+      .start-proxy-shell::before,
+      .start-proxy-shell::after {
+        content: "";
+        position: absolute;
+        inset: 10%;
+        border-radius: 24px;
+        z-index: -1;
+        transition: opacity 320ms ease, transform 320ms ease;
+      }
+
+      .start-proxy-shell::before {
+        background: radial-gradient(100% 100% at 50% 0%, rgba(102, 153, 255, 0.35), rgba(23, 26, 35, 0));
+        opacity: 0.8;
+      }
+
+      .start-proxy-shell::after {
+        background: linear-gradient(135deg, rgba(120, 138, 255, 0.35) 0%, rgba(255, 255, 255, 0) 70%);
+        filter: blur(12px);
+        opacity: 0.45;
+      }
+
+      .start-proxy-button {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        padding: 1.2rem 2.75rem;
+        border-radius: 999px;
+        background: linear-gradient(120deg, #6e40ff 0%, #b832f8 52%, #ff6b7a 100%);
+        color: inherit;
+        font-size: clamp(1.8rem, 2.5vw, 2.6rem);
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        text-decoration: none;
+        border: none;
+        box-shadow: 0 20px 45px rgba(110, 64, 255, 0.35);
+        transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+          box-shadow 280ms ease, filter 320ms ease;
+      }
+
+      .start-proxy-button span {
+        position: relative;
+        z-index: 1;
+      }
+
+      .start-proxy-button::before {
+        content: "";
+        position: absolute;
+        inset: 2px;
+        border-radius: inherit;
+        background: linear-gradient(120deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.04));
+        opacity: 0;
+        transition: opacity 280ms ease;
+      }
+
+      .start-proxy-button svg {
+        width: clamp(1.6rem, 2vw, 2rem);
+        height: clamp(1.6rem, 2vw, 2rem);
+        flex-shrink: 0;
+        fill: currentColor;
+        filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.35));
+      }
+
+      .start-proxy-shell:hover,
+      .start-proxy-shell:focus-visible {
+        transform: translateY(-6px);
+        border-color: rgba(160, 178, 255, 0.55);
+        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      }
+
+      .start-proxy-shell:hover::after,
+      .start-proxy-shell:focus-visible::after {
+        opacity: 0.6;
+        transform: translate3d(0, -6px, 0) scale(1.02);
+      }
+
+      .start-proxy-shell:hover::before,
+      .start-proxy-shell:focus-visible::before {
+        opacity: 1;
+      }
+
+      .start-proxy-shell:hover .start-proxy-button,
+      .start-proxy-shell:focus-within .start-proxy-button {
+        transform: scale(1.04);
+        box-shadow: 0 25px 55px rgba(110, 64, 255, 0.4);
+      }
+
+      .start-proxy-shell:hover .start-proxy-button::before,
+      .start-proxy-shell:focus-within .start-proxy-button::before {
+        opacity: 1;
+      }
+
+      .start-proxy-button:focus-visible {
+        outline: 2px solid rgba(255, 255, 255, 0.35);
+        outline-offset: 6px;
+      }
+
+      @media (max-width: 640px) {
+        body {
+          padding: 2rem;
+        }
+
+        .start-proxy-shell {
+          border-radius: 24px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+        }
+      }
+    </style>
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="rating" content="general" />
     <meta name="distribution" content="global" />
@@ -281,480 +436,13 @@
 
   <body>
     <!-- IMPORTANT-HUCOOKINGINSERT-DONOTDELETE -->
-    <div
-      id="header"
-      class="fullwidth"
-      role="navigation"
-      aria-label="Main navigation"
-    >
-      <!--HEADER-->
-    </div>
-    <div id="banner" class="fullwidth">
-      <p class="text-center">
-        <!--HUTAOWOA-->
-      </p>
-    </div>
-    <div id="mainbody" class="fullwidth">
-      <div id="particles-js" class="fullwidth"></div>
-      <div class="home-grid-container" aria-label="Home Grid Container">
-        <div class="home-text" role="banner">
-          <h1><span>End Internet Censorship.</span></h1>
-          <h1>Privacy right at your fingertips.</h1>
-          <a class="homebutton" href="#scrollfix" aria-label="Bypass now"
-            >Bypass now?</a
-          >
-          <a class="homebutton mobile" href="/browsing" aria-label="Browse now"
-            >Bypass now?</a
-          >
-        </div>
-        <div class="mac-window" aria-label="Command Line Instructions">
-          <div
-            class="mac-title-bar"
-            role="banner"
-            aria-label="Mac Window Title Bar"
-          >
-            <div class="mac-buttons" aria-label="Mac Window Buttons">
-              <span class="mac-close" aria-label="Close Window"></span>
-              <span class="mac-minimize" aria-label="Minimize Window"></span>
-              <span class="mac-maximize" aria-label="Maximize Window"></span>
-            </div>
-          </div>
-          <div class="mac-content">
-            <p>
-              <span class="cmd">git clone --recurse-submodules<span class="url"> https://github.com/QuiteAFancyEmerald/Holy-Unblocker.git</span>&#13;</span
-              ><br />
-              <span class="cmd">cd Holy-Unblocker&#13;</span><br />
-              <span class="comment">Recommended you switch branches via your IDE to a stable released branch such as v6.x instead of master.</span><br />
-              <span class="cmd">npm start&#13;</span><br />
-              <span class="comment">Or on subsequent uses...</span><br />
-              <span class="cmd">npm restart&#13;</span><br /><br />
-              <span class="comment">Holy Unblocker LTS v<!-- VERSION --></span
-              ><br />
-              <span class="comment">Node.js v20</span><br />
-              <span class="comment">Fa&#173;sti&#173;fy v4&#173;.2&#173;.1</span><br /><br />
-              <span class="downarrowgroup">
-                <i class="fas fa-level-down-alt"></i>
-                <i class="fas fa-level-down-alt"></i>
-                <i class="fas fa-level-down-alt"></i>
-              </span>
-            </p>
-          </div>
-        </div>
-      </div>
-      <div id="scrollfix">&#173;</div>
-      <div data-aos="fade-right" class="hero-grid-container">
-        <div class="box-hero">
-          <div class="hero-content">
-            <div class="hero-text-wrap">
-              <div class="brand-logo-container">
-                <i class="far fa-window-restore palered"></i>
-                <h2 class="hero-content-header">Holy Unblocker is free.</h2>
-              </div>
-              <p>
-                Being open source, you can easily fork this repository and self
-                host for maximum privacy control. In contrast to numerous other
-                web proxy services, HU LTS stands out with complete transparency
-                and privacy control. We collect no user data is collected and
-                ensure browsing privacy.
-              </p>
-              <div class="brand-logo-container">
-                <i class="far fa-window-restore palered"></i>
-                <h2 class="hero-content-header">
-                  Holy Unblocker is fast and highly advanced.
-                </h2>
-              </div>
-              <p>
-                HU LTS delivers exceptional web proxy performance. It boasts a
-                robust feature set including CAPTCHA integration, customizable
-                blacklist settings, leak prevention mechanisms, robust security
-                measures, and extensive site compatibility support via
-                Ultraviolet + Wisp.
-              </p>
-              <div class="brand-logo-container">
-                <i class="far fa-window-restore palered"></i>
-                <h2 class="hero-content-header">
-                  Holy Unblocker is fast and highly advanced.
-                </h2>
-              </div>
-              <p>
-                Leveraging our custom source randomization and projects like
-                Epoxy, Wisp, and Ultraviolet, HU LTS delivers a seamless
-                experience that effectively circumvents web and network filters.
-                This is achieved entirely within your browser and our backend
-                (or your own if self-hosting), enabling users to bypass even the
-                most stringent censorship blocks.
-              </p>
-            </div>
-          </div>
-          <div class="image-container-hero">
-            <img class="hero" src="/assets/img/icon2.png" alt="icon" />
-            <h1>Holy Unblocker LTS</h1>
-            <h2>Free and transparent for use</h2>
-            <a class="fancybutton glowbutton" href="/browsing">Browse Now</a>
-          </div>
-        </div>
-      </div>
-      <div data-aos="fade-right" class="carousel-container">
-        <div class="carousel-wrapper">
-          <div class="carousel">
-            <div class="carousel-inner">
-              <div class="dependencylogo">
-                <img src="/assets/img/fastify.png" alt="Fastify" />
-              </div>
-              <div class="dependencylogo">
-                <img src="/assets/img/nordtheme.png" alt="Nord Theme" />
-              </div>
-              <div class="dependencylogo">
-                <img src="/assets/img/nodejs.png" alt="Nodejs" />
-              </div>
-              <div class="dependencylogo">
-                <img src="/assets/img/fontawesome.png" alt="Font Awesome" />
-              </div>
-              <div class="dependencylogo">
-                <img src="/assets/img/webretro.png" alt="Webretro" />
-              </div>
-              <div class="dependencylogo">
-                <img src="/assets/img/ruffle.png" alt="Ruffle" />
-              </div>
-              <div class="dependencylogo">
-                <img src="/assets/img/uv.png" alt="Ultraviolet" />
-              </div>
-              <div class="dependencylogo">
-                <img src="/assets/img/rammerhead.png" alt="Rammerhead" />
-              </div>
-              <!-- Duplicate logos for continuous scrolling effect -->
-              <div class="dependencylogo">
-                <img src="/assets/img/fastify.png" alt="Fastify" />
-              </div>
-              <div class="dependencylogo">
-                <img src="/assets/img/nordtheme.png" alt="Nord Theme" />
-              </div>
-              <div class="dependencylogo">
-                <img src="/assets/img/nodejs.png" alt="Nodejs" />
-              </div>
-              <div class="dependencylogo">
-                <img src="/assets/img/fontawesome.png" alt="Font Awesome" />
-              </div>
-              <div class="dependencylogo">
-                <img src="/assets/img/webretro.png" alt="Webretro" />
-              </div>
-              <div class="dependencylogo">
-                <img src="/assets/img/ruffle.png" alt="Ruffle" />
-              </div>
-              <div class="dependencylogo">
-                <img src="/assets/img/uv.png" alt="Ultraviolet" />
-              </div>
-              <div class="dependencylogo">
-                <img src="/assets/img/rammerhead.png" alt="Rammerhead" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="text-center">
-        <div class="splashstroke">
-          <div>
-            <h1 class="splashstrokeheader">
-              Designed with focus<span class="underline-svg"></span>.
-            </h1>
-          </div>
-          <svg class="underline-svg" viewBox="0 0 390 55" fill="none">
-            <defs>
-              <linearGradient
-                gradientUnits="userSpaceOnUse"
-                x1="192.539"
-                y1="1.537"
-                x2="192.539"
-                y2="51.098"
-                id="gradient-0"
-                gradientTransform="matrix(-0.001215, 0.999999, -7.795296, -0.009463, 402.484802, -163.600372)"
-              >
-                <stop
-                  offset="0"
-                  style="stop-color: rgba(135, 149, 221, 1)"
-                ></stop>
-                <stop
-                  offset="1"
-                  style="stop-color: rgba(56, 80, 198, 1)"
-                ></stop>
-              </linearGradient>
-            </defs>
-            <path
-              style="
-                stroke: url(#gradient-0);
-                stroke-width: 2px;
-                stroke-linecap: round;
-              "
-              d="M 3 8.997 C 3 8.997 386.2758229569146 -1.5119911685214125 386.872 5.292 C 387.1840859001393 8.853743500517725 283.1432491171007 17.09919545317559 283.106 22.586 C 283.07461319934777 27.209283823450303 356.0628379238926 30.04524568361604 356.607 35.864 C 357.0292218177662 40.3788405823717 314.606 51.924 314.606 51.924"
-            ></path>
-          </svg>
-        </div>
-      </div>
-      <div class="grid-container">
-        <div data-aos="fade-right" id="info" class="box-card">
-          <div class="content">
-            <div class="text-wrap">
-              <h1>Overview</h1>
-              <p>
-                Holy Unblocker LTS, an experimental web proxy service, can
-                bypass web filters or 'blockers' regardless of whether the
-                method of censorship is client-side or network-based. This
-                includes the potential ability to bypass content blockers
-                overseas, Chrome extensions, localized client firewalls, and
-                network-related filters.
-              </p>
-            </div>
-          </div>
-          <div class="image-container">
-            <img
-              class="hero"
-              src="/assets/img/toolbox.png"
-              alt="Toolbox Kit Icon"
-            />
-          </div>
-        </div>
-        <!-- Repeat the above structure for the second box-card -->
-        <div data-aos="fade-left" id="info2" class="box-card">
-          <div class="content">
-            <div class="text-wrap">
-              <h1>Intent</h1>
-              <p>
-                This project serves mostly as a proof of concept for the ideal
-                clientless solution to bypassing censorship. Being a secure web
-                proxy service, it supports numerous sites while being updated
-                frequently and concentrating on detail with design, mechanics,
-                and features.
-              </p>
-              <p>
-                This project's palette is built using
-                <a href="https://nordtheme.com">Nord Theme</a> for its optimal
-                design color palette and prioritization of readable code syntax
-                and UI components.
-              </p>
-            </div>
-          </div>
-          <div class="image-container">
-            <img
-              class="hero"
-              src="/assets/img/filecode.png"
-              alt="File Code Icon"
-            />
-          </div>
-        </div>
-        <div data-aos="fade-right" id="info2" class="box-card">
-          <div class="content">
-            <div class="text-wrap">
-              <h1>Usage</h1>
-              <p>
-                Head to the <a href="/browsing">Web Proxies</a> page and select
-                one of the proxies featured! Afterwards, type out the site you
-                wish to access in the search box. Each web proxy has its own
-                level of effectiveness, speed and security. It is recommended to
-                use Ultraviolet.<br /><br />Example Website To Unblock:
-                <code>https://coolmathgames.com</code>
-              </p>
-            </div>
-          </div>
-          <div class="image-container">
-            <img class="hero" src="/assets/img/user.png" alt="User Icon" />
-          </div>
-        </div>
-        <div data-aos="fade-left" id="info2" class="box-card">
-          <div class="content">
-            <div class="text-wrap">
-              <h1>Apps</h1>
-              <p>
-                HU LTS features a collection of pre-linked applications,
-                including YouTube, Spotify,
-                <a href="/emulators">Webretro</a> (an online everything
-                emulator), <a href="/flash-games">Ruffle.fs</a> (Adobe Flash
-                Emulator), and an expansive library for each respective app.
-              </p>
-              <p>This project is soon to support the Anura games library.</p>
-            </div>
-          </div>
-          <div class="image-container">
-            <img
-              class="hero"
-              src="/assets/img/apps.png"
-              alt="Application Icon"
-            />
-          </div>
-        </div>
-        <div data-aos="fade-right" id="info2" class="box-card">
-          <div class="content">
-            <div class="text-wrap">
-              <h1>Hosting and Deployment</h1>
-              <p>
-                <strong>Holy Unblocker LTS</strong> is designed with flexibility
-                and ease of deployment in mind. As an open-source solution, it
-                is straightforward to set up on both personal and production
-                environments. Key features include modularity for ad-blocking,
-                source randomization, and advanced proxy navigation.<br /><br />
-                For comprehensive setup instructions, visit our official
-                <a
-                  href="https://github.com/QuiteAFancyEmerald/Holy-Unblocker"
-                  title="Holy Unblocker LTS GitHub Repository"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >GitHub repository</a
-                >, the
-                <a
-                  href="https://docs.titaniumnetwork.org/services/holyunblocker"
-                  title="Titanium Network Documentation"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Titanium Network Docs</a
-                >, or
-                <a href="?documentation" title="Additional Hosting Information"
-                  >linked here on the main site</a
-                >.
-              </p>
-              <p>
-                Additional scripts can be found in
-                <code>/views/assets/js/</code>:<br />
-                - <strong>bareTransport.js</strong>: Locally installed module
-                for Ultraviolet functionality.<br />
-                - <strong>card.js</strong>: Adds visual effects to the box
-                cards.<br />
-                - <strong>common.js</strong>: Provides essential features across
-                all pages.<br />
-                - <strong>csel.js</strong>: Manages the settings menu.<br />
-                - <strong>particles.js</strong>: Creates animated background
-                effects.<br />
-                - <strong>register-sw.js</strong>: Handles service workers and
-                Ultraviolet integration.
-              </p>
-            </div>
-          </div>
-          <div class="image-container">
-            <img
-              class="hero"
-              src="/assets/img/hosting.png"
-              alt="Hosting and Deployment Icon"
-              title="Hosting and Deployment for Holy Unblocker LTS"
-            />
-          </div>
-        </div>
-        <div data-aos="fade-left" id="info2" class="box-card">
-          <div class="content">
-            <div class="text-wrap">
-              <h1>Contributing</h1>
-              <p>
-                <strong>Holy Unblocker LTS</strong> thrives due to the dedicated
-                efforts of our amazing contributors. As an open-source project,
-                <strong>HU LTS</strong> relies on the collective skills and
-                passion of its community to drive continuous improvement and
-                deliver the best experience for all users.
-              </p>
-              <p>
-                There are numerous ways to get involved and make a meaningful
-                impact on <strong>Holy Unblocker LTS</strong>:<br /><br />
-                - <strong>Design</strong>: Contribute to the visual aesthetics
-                and user experience.<br />
-                - <strong>Core Development</strong>: Help enhance the core
-                functionality and performance.<br />
-                - <strong>Applications and Games</strong>: Develop and integrate
-                new features or games.<br />
-                - <strong>Documentation</strong>: Assist with creating and
-                refining project documentation.<br />
-                - <strong>Testing and QA</strong>: Ensure the software is
-                bug-free and meets quality standards.
-              </p>
-              <p>
-                To start contributing, visit our
-                <a
-                  href="https://github.com/QuiteAFancyEmerald/Holy-Unblocker"
-                  title="Holy Unblocker LTS GitHub Repository"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >GitHub repository</a
-                >
-                and join our
-                <a
-                  href="https://discord.gg/unblock"
-                  title="Holy Unblocker LTS Discord Server"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Discord server</a
-                >
-                for real-time discussions and updates.
-              </p>
-            </div>
-          </div>
-          <div class="image-container">
-            <img
-              class="hero"
-              src="/assets/img/git.png"
-              alt="Contributing GitHub Icon"
-              title="Contribute to Holy Unblocker LTS on GitHub"
-            />
-          </div>
-        </div>
-      </div>
-      <div data-aos="fade-left" class="hero-grid-container">
-        <div class="box-hero">
-          <div class="hero-content">
-            <div class="hero-text-wrap">
-              <div class="brand-logo-container">
-                <i class="far fa-window-restore palered"></i>
-                <h2 class="hero-content-header">
-                  Unblock Websites with Holy Unblocker LTS
-                </h2>
-              </div>
-              <p>
-                Holy Unblocker LTS is an open-source
-                <strong>public web proxy</strong>. Enjoy unrestricted access to
-                online content and secure browsing with our advanced
-                <strong>web proxy unblocking</strong> features.
-              </p>
-              <div class="brand-logo-container">
-                <i class="far fa-window-restore palered"></i>
-                <h2 class="hero-content-header">
-                  Free and Accessible Proxy Services
-                </h2>
-              </div>
-              <p>
-                Benefit from our <strong>free web proxy service</strong> that
-                helps you <strong>unblock websites</strong> and access
-                restricted content at no cost. Perfect for navigating
-                educational or workplace filters, our service ensures seamless
-                and reliable access.
-              </p>
-              <div class="brand-logo-container">
-                <i class="far fa-window-restore palered"></i>
-                <h2 class="hero-content-header">
-                  Efficient and Reliable Access
-                </h2>
-              </div>
-              <p>
-                Our <strong>unblocked web proxy</strong> is designed to meet
-                diverse needs, providing a robust solution for overcoming web
-                filters and enjoying a high-quality browsing experience.
-              </p>
-            </div>
-          </div>
-          <div class="image-container-hero">
-            <h1>Long Term Support FOSS Project</h1>
-            <a class="fancybutton glowbutton" href="/browsing">Bypass Now</a>
-          </div>
-        </div>
-      </div>
-      <div class="box-home text-center splashend">
-        <h1>It's time to browse the internet freely.</h1>
-        <a class="homebutton" href="#scrollfix">Try HU LTS For Free</a>
-        <a class="homebutton mobile" href="/browsing">Try HU LTS For Free</a>
-      </div>
-    </div>
-    <div id="footer" class="fullwidth"><!--FOOTER--></div>
-    <!-- IMPORTANT-HUCOOKINGINSERT-DONOTDELETE -->
-    <script src="assets/js/common.js"></script>
-    <script src="assets/js/csel.js"></script>
-    <script src="assets/js/card.js"></script>
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-    <script>
-      AOS.init();
-    </script>
-    <script defer="defer" src="assets/js/particlesjs/particles.js"></script>
+    <main class="start-proxy-shell" role="main" aria-label="Start proxy">
+      <a class="start-proxy-button" href="/a">
+        <span>Start Proxy</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M7.293 5.293a1 1 0 0 1 1.414 0L16.414 13l-7.707 7.707a1 1 0 1 1-1.414-1.414L13.586 13 7.293 6.707a1 1 0 0 1 0-1.414Z" />
+        </svg>
+      </a>
+    </main>
   </body>
 </html>
