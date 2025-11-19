@@ -385,16 +385,13 @@ app.get('/network/:file.js', (req, reply) => {
     );
 });
 
-// Handle POST requests to root (e.g., from analytics scripts)
+// Handle POST requests by redirecting to /a
 app.post('/', (req, reply) => {
-  // Return 200 OK to prevent errors from analytics scripts
-  reply.code(200).send({ status: 'ok' });
+  reply.redirect('/a');
 });
 
-// Handle POST requests to any path
 app.post('/*', (req, reply) => {
-  // Return 200 OK to prevent errors from analytics scripts
-  reply.code(200).send({ status: 'ok' });
+  reply.redirect('/a');
 });
 
 app.setNotFoundHandler((req, reply) => {
